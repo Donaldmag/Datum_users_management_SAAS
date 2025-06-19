@@ -19,11 +19,11 @@ Create an interface that will allow:
   4. Review customer inquiries handled by the AI Agent
 
 ## Tech Stack:
-  **Backend:** Python with FastAPI, PostgreSQL
-  **Frontend:** JavaScript/TypeScript with Vue 3 + Nuxt 3
-  **CSS Framework:** Tailwind CSS 4.1
-  **Cloud Infrastructure:** OpenStack
-  **Deployment:** Kubernetes with CI/CD
+  -**Backend:** Python with FastAPI, PostgreSQL
+  -**Frontend:** JavaScript/TypeScript with Vue 3 + Nuxt 3
+  -**CSS Framework:** Tailwind CSS 4.1
+  -**Cloud Infrastructure:** OpenStack
+  -**Deployment:** Kubernetes with CI/CD
 
 ## Features to Implement:
   - CRUD Operations (REST API, GET/POST, headers, JSON manipulation, SQLAlchemy)
