@@ -1,7 +1,7 @@
 # from typing import List
 from fastapi import APIRouter, Body, Path, Query
 from app.core.utils.checkid import find_proper_user_id
-# from app.model.classes import User
+from app.model.classes import User, UserValidation
 
 from data.users import USERS
 
@@ -61,15 +61,16 @@ async def get_user_by_id(user_id:int = Path()):
         
 # POST/CREATE USER BY Body
 @router.post("/user/create")
-async def create_user(user_body = Body()):
-    USERS.append(find_proper_user_id(user_body))
+async def create_user(user_body:UserValidation = Body()):
+    new_user = User(**user_body.model_dump())
+    USERS.append(find_proper_user_id(new_user))
 
 # PUT/UPDATE USER BY Body
 @router.put("/user/update")
-async def update_user(user_body = Body()):
+async def update_user(user_body:UserValidation = Body()):
     for i in range(len(USERS)):
-        if USERS[i].id == user_body.get("id"):
-            USERS[i] = user_body
+        if USERS[i].id == user_body.id:
+            USERS[i] = User(**user_body.model_dump())
             
 # DELETE USER BY ID AS PATH PARAM
 @router.delete("/user/delete/{user_id}")

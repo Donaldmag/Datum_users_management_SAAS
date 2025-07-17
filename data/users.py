@@ -38,7 +38,7 @@ USERS: List[User] = [
             ),
         representative = Representative(
                 first_name= "Donald",
-                last_name= "",
+                last_name= "Mag",
                 email= "donald@email.com",
                 contact= "+49123456789",
                 location= "Berlin",
