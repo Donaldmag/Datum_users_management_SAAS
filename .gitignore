@@ -1,4 +1,6 @@
 env
 heroes.py
 main_tuto.py
-/__pycache__
+__pycache__/
+**/__pycache__/
+*.py[cod]
