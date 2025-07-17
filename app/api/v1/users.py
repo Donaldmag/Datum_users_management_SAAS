@@ -1,21 +1,19 @@
-from fastapi import Body, FastAPI, Path, Query
+from fastapi import APIRouter, Body, Path, Query
+from app.core.utils.checkid import find_proper_user_id
 
 from data.users import USERS
-from utils.checkid import find_proper_user_id
 
-app = FastAPI()
+router = APIRouter(prefix="/users", tags=["users"])
+# router = APIRouter()  # Utilisez router, pas app
 
-@app.get("/")
-async def heartbeat():
-    return "App running"
 
 # GET ALL ALL
-@app.get("/users")
+@router.get("/users")
 async def get_all_users():
     return USERS
 
 # GET USERS BY COMPANY NAME (AS QUERY PARAM)
-@app.get("/users/company/name")
+@router.get("/users/company/name")
 async def get_all_users_by_company_name(company_name:str = Query()):
     result = []
     for user in USERS:
@@ -25,7 +23,7 @@ async def get_all_users_by_company_name(company_name:str = Query()):
     return result
 
 # GET USERS BY REPRESENTATIVE NAME (AS QUERY PARAM)
-@app.get("/users/representative/name")
+@router.get("/users/representative/name")
 async def get_all_users_by_representative_name(representative_name:str = Query()):
     result = []
     for user in USERS:
@@ -35,7 +33,7 @@ async def get_all_users_by_representative_name(representative_name:str = Query()
     return result
 
 # GET USERS BY SUBSCRIPTION PLAN (AS QUERY PARAM)
-@app.get("/users/plan")
+@router.get("/users/plan")
 async def get_all_users_by_subscription_plan(subscription_plan:int = Query()):
     result = []
     for user in USERS:
@@ -45,7 +43,7 @@ async def get_all_users_by_subscription_plan(subscription_plan:int = Query()):
     return result
 
 # GET USERS BY STATUS (AS QUERY PARAM)
-@app.get("/users/status")
+@router.get("/users/status")
 async def get_all_users_by_status(status:int = Query()):
     result = []
     for user in USERS:
@@ -55,26 +53,26 @@ async def get_all_users_by_status(status:int = Query()):
     return result
 
 # GET USERS BY id (AS PATH PARAM)
-@app.get("/user/id/{user_id}")
+@router.get("/user/id/{user_id}")
 async def get_user_by_id(user_id:int = Path()):
     for user in USERS:
         if user.get("id") == user_id:
             return user
         
 # POST/CREATE USER BY Body
-@app.post("/user/create")
+@router.post("/user/create")
 async def create_user(user_body = Body()):
     USERS.append(find_proper_user_id(user_body))
 
 # PUT/UPDATE USER BY Body
-@app.put("/user/update")
+@router.put("/user/update")
 async def update_user(user_body = Body()):
     for i in range(len(USERS)):
         if USERS[i].get("id") == user_body.get("id"):
             USERS[i] = user_body
             
 # DELETE USER BY ID AS PATH PARAM
-@app.delete("/user/delete/{user_id}")
+@router.delete("/user/delete/{user_id}")
 async def delete_user(user_id:int = Path()):
     for i in range(len(USERS)):
         if USERS[i].get("id") == user_id:
@@ -82,13 +80,11 @@ async def delete_user(user_id:int = Path()):
             break
         
 # PUT/UPDATE USER STATUS
-@app.put("/user/update-status/{user_id}")
+@router.put("/user/update-status/{user_id}")
 async def update_user(user_id:int = Path()):
     for user in USERS:
         if user.get("id") == user_id:
             current_status = user.get("status")
             user["status"] = 1 if current_status == 0 else 0
             return user
-
-
 
